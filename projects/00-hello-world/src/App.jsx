@@ -1,29 +1,31 @@
-export function App(){
+import './App.css'
+import { TwitterFollowCard } from './TwitterFollowCard'
+export function App() {
+    const formatUserName = (userName) => `@${userName}`
+    return (
+        //Instead of using <React.Fragments>, we can just put empty <> because it's cleaner
+        //When sending boolean ant it's true, you don't need to put ={true}
+        <section className='App'>
+            <TwitterFollowCard 
+            formatUserName={formatUserName} 
+            isFollowing 
+            userName="ansufatidico" 
+            name= "Rey del trap y los cueros"/>
 
-    return(
-      <article>
-        <header>
-           <img alt="El avatar de ansufatidico" src="https://unavatar.io/ansufatidico" />
-           <div>
-                <strong>Ansufatidico Rey CiberTroll</strong>
-                <span>@ansufatidico</span>
+            <TwitterFollowCard 
+            formatUserName={formatUserName} 
+            isFollowing={false} 
+            userName="manurtt8" 
+            name= "Manolok"/>
 
-           </div>
-
-
-        </header>
-
-        <aside>
-            <button>
-                Seguir   
-                
-            </button>    
+            <TwitterFollowCard 
+            formatUserName={formatUserName} 
+            isFollowing 
+            userName="infarruco" 
+            name= "infa"/>
             
-        
-        </aside>    
-
-      </article>
-
+        </section>
+       
     )
 
 
