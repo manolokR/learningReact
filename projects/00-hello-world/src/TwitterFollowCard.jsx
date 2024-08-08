@@ -1,4 +1,7 @@
-export function TwitterFollowCard({formatUserName,userName,name,isFollowing}){
+export function TwitterFollowCard({formatUserName,userName='unknown',name,isFollowing}){
+    //Never MODIFY props sent in the call
+    //If you want to use big components, send 'children' as a prop
+    //If username not specified, use 'unknown' as default value
     const imageSrc = `https://unavatar.io/${userName}`
     return (
         //When adding a new class, we need to call it className
