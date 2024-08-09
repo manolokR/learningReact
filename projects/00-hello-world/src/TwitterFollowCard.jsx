@@ -1,11 +1,11 @@
 import { useState } from "react" //Needed for adding funcitonality to components
 
-export function TwitterFollowCard({formatUserName,userName='unknown',name}){
+export function TwitterFollowCard({formatUserName,userName='unknown',name,initialIsFollowing}) {
     //Never MODIFY props sent in the call
     //If you want to use big components, send 'children' as a prop
     //If username not specified, use 'unknown' as default value
 
-    const [isFollowing, setIsFollowing] = useState(false) 
+    const [isFollowing, setIsFollowing] = useState(initialIsFollowing) 
 
     /* Same expression as above but longer
     const state = useState(false) //State default value is false, array returned
@@ -21,10 +21,14 @@ export function TwitterFollowCard({formatUserName,userName='unknown',name}){
     }
    
     const imageSrc = `https://unavatar.io/${userName}`
-    const text = isFollowing ? 'Siguiendo' : 'Seguir'
+    const text = isFollowing ? 'Following' : 'Follow'
     const buttonClassName = isFollowing ? 'tw-followCard-button isFollowing' : 'tw-followCard-button'
+
+    //All elements are rendered even if the state change doesn't affect them (we can optimize this)
+
+    //When adding a new class, we need to call it className
     return (
-        //When adding a new class, we need to call it className
+        
         <article className='tw-followCard'>
             <header className='tw-followCard-header'>
                 <img
@@ -40,7 +44,8 @@ export function TwitterFollowCard({formatUserName,userName='unknown',name}){
 
             <aside>
                 <button className={buttonClassName} onClick={handleClick}>
-                    {text}
+                    <span className='tw-followCard-text'>{text}</span>
+                    <span className='tw-followCard-stopFollow'>Unfollow</span>
                 </button>
             </aside>
         </article>
