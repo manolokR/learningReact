@@ -1,8 +1,28 @@
-export function TwitterFollowCard({formatUserName,userName='unknown',name,isFollowing}){
+import { useState } from "react" //Needed for adding funcitonality to components
+
+export function TwitterFollowCard({formatUserName,userName='unknown',name}){
     //Never MODIFY props sent in the call
     //If you want to use big components, send 'children' as a prop
     //If username not specified, use 'unknown' as default value
+
+    const [isFollowing, setIsFollowing] = useState(false) 
+
+    /* Same expression as above but longer
+    const state = useState(false) //State default value is false, array returned
+    const isFollowing = state[0] //First value of the state is the value
+    const setIsFollowing = state[1] //Second value of the state is the function to change the value
+
+    */
+
+    const handleClick = () => {
+
+        setIsFollowing(!isFollowing)
+
+    }
+   
     const imageSrc = `https://unavatar.io/${userName}`
+    const text = isFollowing ? 'Siguiendo' : 'Seguir'
+    const buttonClassName = isFollowing ? 'tw-followCard-button isFollowing' : 'tw-followCard-button'
     return (
         //When adding a new class, we need to call it className
         <article className='tw-followCard'>
@@ -19,8 +39,8 @@ export function TwitterFollowCard({formatUserName,userName='unknown',name,isFoll
 
 
             <aside>
-                <button className='tw-followCard-button'>
-                    Seguir
+                <button className={buttonClassName} onClick={handleClick}>
+                    {text}
                 </button>
             </aside>
         </article>
