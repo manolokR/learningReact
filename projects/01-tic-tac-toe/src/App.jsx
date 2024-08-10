@@ -71,6 +71,19 @@ function App() {
 
   }
 
+  const resetGame = () => {
+    setBoard(Array(9).fill(null))
+    setTurn(TURNS.X)
+    setWinner(null)
+  }
+
+  const checkEndGame = (newBoard) => {
+
+    //Check if there are any empty squares left.
+    return newBoard.every((square) => square != null)
+
+  }
+
   const updateBoard = (index) => {
     
     //If the square is already filled, we should not update the board.
@@ -86,9 +99,14 @@ function App() {
     setTurn(newTurn)
 
     //Check if there is a winner
+    //We check the winner after the board is updated (that's why we have to send newBoard)
+    // because of the asynchronous nature of the setBoard function.
     const newWinner = checkWinner(newBoard)
     if(newWinner){
+      //Setting the state is asynchronous.
       setWinner(newWinner)
+    }else if(checkEndGame(newBoard)){
+      setWinner(false) //Draw
     }
 
   }
@@ -97,7 +115,7 @@ function App() {
     <main className='board'>
 
       <h1>Tic tac toe</h1>
-
+      <button className ='button' onClick={resetGame}> Reset game </button>
       <section className='game'>
         {
           board.map((_, index) => {
@@ -122,6 +140,37 @@ function App() {
         <Square isSelected={turn == TURNS.O}>  {TURNS.O} </Square>
       </section>    
 
+      {
+        winner != null && (
+          <section className='winner'>
+            <div className='text'>
+
+              <h2>
+                {
+                  winner ==false ? 'Draw' : `Winner: ${winner}`
+                
+                }
+                
+                </h2>
+
+                <header className='win'>
+
+                  {winner && <Square> {winner} </Square>}
+
+                </header>
+
+                <footer>
+                  <button onClick={resetGame}> Play again </button>
+
+                </footer>
+            </div>
+            
+          </section>
+        )
+
+
+      }
+  
     </main>
 
 
