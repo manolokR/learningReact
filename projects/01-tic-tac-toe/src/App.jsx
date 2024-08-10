@@ -2,45 +2,11 @@
 // 'Children' is a utility from React that provides methods to deal with this.props.children.
 import { Children, useState } from 'react'
 import './App.css'
-
-const TURNS={
-  X: 'x',
-  O: 'o',
-
-}
-
-
-// This component will be used to render each square of the Tic-Tac-Toe board.
-const Square = ({children, isSelected ,updateBoard, index}) => {
-  // Dynamically set the class name based on whether the square is selected.
-  const className = `square ${isSelected ? 'is-selected' : ''}`
-
-  const handleClick = () => {
-
-      updateBoard(index)
-  }
-
-  return (
-    <div onClick={handleClick} className={className}>
-        {children}
-    </div>
-  )
-
-}
-
-
-// This array will hold all the possible winning combinations in the game.
-const WINNER_COMBOS = [
-  [0,1,2],
-  [3,4,5],
-  [6,7,8],
-  [0,3,6],
-  [1,4,7],
-  [2,5,8],
-  [0,4,8],
-  [2,4,6]
-]
-
+import confetti from 'canvas-confetti'
+import { Square } from './components/Square.jsx'
+import { TURNS} from './constants.js'
+import { checkWinnerFrom } from './logic/board.js'
+import { WinnerModal } from './components/WinnerModal.jsx'
 
 // Main App component, which will hold the entire game logic and UI.
 function App() {
@@ -52,24 +18,6 @@ function App() {
   const [turn, setTurn] = useState(TURNS.X)
   //Null if there is no winner, false if there is a draw.
   const[winner,setWinner] = useState(null)
-
-  const checkWinner = (boardToCheck) => {
-
-    //Iterate over all the possible winning combinations.
-    for(const combo of WINNER_COMBOS){
-      const [a,b,c] = combo
-
-      //Check if the squares are filled and if they are the same.
-      if(boardToCheck[a] && boardToCheck[a] == boardToCheck[b] && boardToCheck[a] == boardToCheck[c]){
-        return boardToCheck[a]
-      }
-    }
-
-    //If there is no winner, we should check if the game is a draw.
-    return null
-
-
-  }
 
   const resetGame = () => {
     setBoard(Array(9).fill(null))
@@ -101,9 +49,10 @@ function App() {
     //Check if there is a winner
     //We check the winner after the board is updated (that's why we have to send newBoard)
     // because of the asynchronous nature of the setBoard function.
-    const newWinner = checkWinner(newBoard)
+    const newWinner = checkWinnerFrom(newBoard)
     if(newWinner){
       //Setting the state is asynchronous.
+      confetti()
       setWinner(newWinner)
     }else if(checkEndGame(newBoard)){
       setWinner(false) //Draw
@@ -118,7 +67,7 @@ function App() {
       <button className ='button' onClick={resetGame}> Reset game </button>
       <section className='game'>
         {
-          board.map((_, index) => {
+          board.map((square, index) => {
 
             return (
               <Square
@@ -126,7 +75,7 @@ function App() {
                 index={index}
                 updateBoard={updateBoard}
               >
-                {board[index]}
+                {square}
               </Square>
             )
           })
@@ -138,42 +87,16 @@ function App() {
         
         <Square isSelected={turn == TURNS.X}>  {TURNS.X} </Square>
         <Square isSelected={turn == TURNS.O}>  {TURNS.O} </Square>
-      </section>    
+      </section>    +
 
-      {
-        winner != null && (
-          <section className='winner'>
-            <div className='text'>
-
-              <h2>
-                {
-                  winner ==false ? 'Draw' : `Winner: ${winner}`
-                
-                }
-                
-                </h2>
-
-                <header className='win'>
-
-                  {winner && <Square> {winner} </Square>}
-
-                </header>
-
-                <footer>
-                  <button onClick={resetGame}> Play again </button>
-
-                </footer>
-            </div>
-            
-          </section>
-        )
-
-
-      }
-  
+      <WinnerModal resetGame={resetGame} winner={winner}/>
+    
     </main>
 
+   
 
+
+     
   )
 
 }
