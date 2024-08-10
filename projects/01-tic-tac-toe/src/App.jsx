@@ -28,6 +28,20 @@ const Square = ({children, isSelected ,updateBoard, index}) => {
 
 }
 
+
+// This array will hold all the possible winning combinations in the game.
+const WINNER_COMBOS = [
+  [0,1,2],
+  [3,4,5],
+  [6,7,8],
+  [0,3,6],
+  [1,4,7],
+  [2,5,8],
+  [0,4,8],
+  [2,4,6]
+]
+
+
 // Main App component, which will hold the entire game logic and UI.
 function App() {
 
@@ -36,14 +50,47 @@ function App() {
   console.log(board)
 
   const [turn, setTurn] = useState(TURNS.X)
+  //Null if there is no winner, false if there is a draw.
+  const[winner,setWinner] = useState(null)
+
+  const checkWinner = (boardToCheck) => {
+
+    //Iterate over all the possible winning combinations.
+    for(const combo of WINNER_COMBOS){
+      const [a,b,c] = combo
+
+      //Check if the squares are filled and if they are the same.
+      if(boardToCheck[a] && boardToCheck[a] == boardToCheck[b] && boardToCheck[a] == boardToCheck[c]){
+        return boardToCheck[a]
+      }
+    }
+
+    //If there is no winner, we should check if the game is a draw.
+    return null
+
+
+  }
 
   const updateBoard = (index) => {
+    
+    //If the square is already filled, we should not update the board.
+    if(board[index] || winner) return
+
+    //We need to create a new array to update the board state. Props are immutable.
     const newBoard = [...board]
     newBoard[index] = turn //X or O
     setBoard(newBoard)
 
+    //Change the turn
     const newTurn = turn == TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
+
+    //Check if there is a winner
+    const newWinner = checkWinner(newBoard)
+    if(newWinner){
+      setWinner(newWinner)
+    }
+
   }
 
   return (
