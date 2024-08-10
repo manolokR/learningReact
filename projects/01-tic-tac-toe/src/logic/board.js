@@ -17,3 +17,10 @@ export const checkWinnerFrom = (boardToCheck) => {
 
 
   }
+
+  export const checkEndGame = (newBoard) => {
+
+    //Check if there are any empty squares left.
+    return newBoard.every((square) => square != null)
+
+  }

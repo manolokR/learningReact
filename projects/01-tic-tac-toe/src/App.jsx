@@ -5,9 +5,10 @@ import './App.css'
 import confetti from 'canvas-confetti'
 import { Square } from './components/Square.jsx'
 import { TURNS} from './constants.js'
-import { checkWinnerFrom } from './logic/board.js'
+import { checkWinnerFrom, checkEndGame } from './logic/board.js'
 import { WinnerModal } from './components/WinnerModal.jsx'
-
+import { GameBoard } from './components/GameBoard.jsx'
+import { Turn } from './components/Turn.jsx'
 // Main App component, which will hold the entire game logic and UI.
 function App() {
 
@@ -25,12 +26,6 @@ function App() {
     setWinner(null)
   }
 
-  const checkEndGame = (newBoard) => {
-
-    //Check if there are any empty squares left.
-    return newBoard.every((square) => square != null)
-
-  }
 
   const updateBoard = (index) => {
     
@@ -64,31 +59,13 @@ function App() {
     <main className='board'>
 
       <h1>Tic tac toe</h1>
+      
       <button className ='button' onClick={resetGame}> Reset game </button>
-      <section className='game'>
-        {
-          board.map((square, index) => {
-
-            return (
-              <Square
-                key={index}
-                index={index}
-                updateBoard={updateBoard}
-              >
-                {square}
-              </Square>
-            )
-          })
-        }
-
-      </section>
-
-      <section  className='turn'>
-        
-        <Square isSelected={turn == TURNS.X}>  {TURNS.X} </Square>
-        <Square isSelected={turn == TURNS.O}>  {TURNS.O} </Square>
-      </section>    +
-
+     
+      <GameBoard board={board} updateBoard={updateBoard}/>
+  +
+      <Turn turn={turn}/>
+     
       <WinnerModal resetGame={resetGame} winner={winner}/>
     
     </main>
