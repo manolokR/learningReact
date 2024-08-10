@@ -25,7 +25,10 @@ const FollowMouse = () => {
     }
   }, [enabled])
 
-   // change body className
+  // [] -> only runs once when the component is mounted
+  // [enabled] -> runs when 'enabled' changes and when the component is mounted
+  // undefined -> runs every time the component is rendered
+  // change body className
    useEffect(() => {
     document.body.classList.toggle('no-cursor', enabled)
 
