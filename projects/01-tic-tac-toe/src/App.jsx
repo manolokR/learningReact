@@ -1,9 +1,8 @@
 // Importing necessary modules from React. 'useState' is a hook used to manage state in functional components.
 // 'Children' is a utility from React that provides methods to deal with this.props.children.
-import { Children, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 import confetti from 'canvas-confetti'
-import { Square } from './components/Square.jsx'
 import { TURNS} from './constants.js'
 import { checkWinnerFrom, checkEndGame } from './logic/board.js'
 import { WinnerModal } from './components/WinnerModal.jsx'
