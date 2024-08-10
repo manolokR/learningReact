@@ -9,14 +9,27 @@ import { checkWinnerFrom, checkEndGame } from './logic/board.js'
 import { WinnerModal } from './components/WinnerModal.jsx'
 import { GameBoard } from './components/GameBoard.jsx'
 import { Turn } from './components/Turn.jsx'
+import { resetGameStorage, saveGameStorage } from './logic/storage/index.js'
+
 // Main App component, which will hold the entire game logic and UI.
 function App() {
 
-  const [board,setBoard] = useState(Array(9).fill(null))
+  //UseState will never be inside a loop or a conditional statement.
+  const [board,setBoard] = useState(() =>{
+    //We check if there is a board in the local storage. If there is, we parse it. If not, we create a new array.
+    const boardFromStorage = window.localStorage.getItem('board')
+    return boardFromStorage ? JSON.parse(boardFromStorage) : Array(9).fill(null)
+
+
+  })
 
   console.log(board)
 
-  const [turn, setTurn] = useState(TURNS.X)
+  const [turn, setTurn] = useState(()=>{
+    const turnFromStorage = window.localStorage.getItem('turn')
+    return turnFromStorage ? turnFromStorage : TURNS.X
+  })
+
   //Null if there is no winner, false if there is a draw.
   const[winner,setWinner] = useState(null)
 
@@ -24,6 +37,8 @@ function App() {
     setBoard(Array(9).fill(null))
     setTurn(TURNS.X)
     setWinner(null)
+
+    resetGameStorage()
   }
 
 
@@ -41,6 +56,8 @@ function App() {
     const newTurn = turn == TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
 
+    //Save game state
+    saveGameStorage({board:newBoard, turn:newTurn})
     //Check if there is a winner
     //We check the winner after the board is updated (that's why we have to send newBoard)
     // because of the asynchronous nature of the setBoard function.
