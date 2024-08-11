@@ -1,0 +1,25 @@
+/*Make it in column-style*/
+main{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    place-items: center;
+    margin: 0 auto;
+    max-width: 800px;
+    font-family: system-ui;
+
+}
+
+/*Make it in row-style*/
+section{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+section img{
+    height: auto;
+    max-width: 300px;
+}
