@@ -5,10 +5,11 @@ function App() {
 
   return (
     <>
-      <h1>Movie Search</h1>
 
-      <div>
+
+      <div className="page">
         <header>
+          <h1>Movie Search</h1>
           <form className='form'>
 
             <input placeholder='Avengers, Star Wars, Mad Max...' />
@@ -20,7 +21,7 @@ function App() {
 
       <main>
 
-        
+
 
       </main>
     </>
