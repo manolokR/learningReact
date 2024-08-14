@@ -1,7 +1,13 @@
 
 import './App.css'
+import responseMovies from './mocks/with-Results.json'
+import withoutResults from './mocks/no-results.json'
+
 
 function App() {
+
+  const movies = responseMovies.Search
+  const hasMovies = movies?.length > 0
 
   return (
     <>
@@ -21,6 +27,30 @@ function App() {
 
       <main>
 
+        {
+          hasMovies ? (
+
+            <ul className='movies'>
+
+              {
+                movies.map((movie) => (
+                  <li key={movie.imdbID}>
+                    <img src={movie.Poster} alt={movie.Title} />
+                    <h2>{movie.Title}</h2>
+                    <p>{movie.Year}</p>
+                  </li>
+                ))
+
+
+              }
+            </ul>
+
+          )
+            : (
+
+              <p>No movies found</p>
+            )
+        }
 
 
       </main>

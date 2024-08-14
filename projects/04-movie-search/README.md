@@ -5,6 +5,8 @@ API to use:
 
  - https://www.omdbapi.com/ Obtain the API Key on the website by registering with your email.
 
+- URL I used: http://www.omdbapi.com/?apikey=ac9cc65e&s=Avengers
+
 Requirements:
 
 ✅ The application needs to display an input field to search for movies and a button to initiate the search.
