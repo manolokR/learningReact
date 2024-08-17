@@ -53,14 +53,14 @@ function useSearch(){
 function App() {
 
       // Destructure the `movies` array from the custom hook `useMovies`
-      const {movies} = useMovies()
+      
       const {search,updateSearch, error} = useSearch()
-     
+      const {movies,getMovies} = useMovies({search})
       // Handle form submission
       const handleSubmit = (event) => {
         // Prevent the default form submission behavior (e.g., page reload)
         event.preventDefault()
-        console.log({search})
+        getMovies()
       }
 
       const handleChange = (event) => {
