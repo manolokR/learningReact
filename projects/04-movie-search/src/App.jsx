@@ -2,7 +2,7 @@
 import './App.css'
 import { useMovies } from './hooks/useMovies.js'
 import { Movies } from './components/Movies.jsx'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
 
 
 // Custom hook to handle search input
@@ -52,10 +52,9 @@ function useSearch(){
 
 function App() {
 
-      // Destructure the `movies` array from the custom hook `useMovies`
-      
+      const [sort, setSort] = useState(false)
       const {search,updateSearch, error} = useSearch()
-      const {movies,loading,getMovies} = useMovies({search})
+      const {movies,loading,getMovies} = useMovies({search,sort})
       // Handle form submission
       const handleSubmit = (event) => {
         // Prevent the default form submission behavior (e.g., page reload)
@@ -67,7 +66,11 @@ function App() {
         updateSearch(event.target.value)
       }
 
+      const handleSort = () => {
+        setSort(!sort)
 
+
+      }
       
 
   return (
@@ -80,6 +83,7 @@ function App() {
           <form className='form' onSubmit={handleSubmit}>
 
             <input onChange={handleChange} value={search} name="query" placeholder='Avengers, Star Wars, Mad Max...' />
+            <input type='checkbox' onChange={handleSort} checked={sort} />
             <button type='submit'>Search</button>
           </form>
           {error && <p style={{color:'red'}}>{error}</p>}
