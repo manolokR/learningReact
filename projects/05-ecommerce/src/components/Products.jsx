@@ -1,5 +1,5 @@
 import './Products.css';
-import { AddToCartIcon } from './icons';
+import { AddToCartIcon } from './Icons.jsx';
 
 export function Products({ products }) {
 
@@ -12,7 +12,7 @@ export function Products({ products }) {
                             <img src={product.thumbnail} alt={product.title} />
                             <div>
 
-                                <strong>{product.title}</strong>
+                                <strong>{product.title}</strong> - ${product.price}
                             </div>
 
                             <div>
