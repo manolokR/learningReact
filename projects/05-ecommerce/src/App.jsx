@@ -17,10 +17,10 @@ function App() {
 
   return (
    <CartProvider>
-    <Header/>
-    <Cart/>
-    <Products products={filteredProducts} />
-    {IS_DEVELOPMENT && <Footer/>}
+      <Header/>
+      <Cart/>
+      <Products products={filteredProducts} />
+      {IS_DEVELOPMENT && <Footer/>}
    </CartProvider>
      
     
